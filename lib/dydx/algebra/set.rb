@@ -305,7 +305,7 @@ module Dydx
         when _(1) / 2 then 0
         when 1        then -1
         when _(3) / 2 then 0
-        else               Sin.new(x)
+        else               Cos.new(x)
         end
       end
 

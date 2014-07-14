@@ -7,7 +7,7 @@ describe Dydx::Integrand do
     f(x, y) <= x * y
     integrand = S(f(x, y), dx)
     expect(integrand.function).to eq(f(x, y))
-    expect(integrand.var).to eq(:x)
+    expect(integrand.var).to eq(x)
     expect { integrand[4, 3] }.to raise_error(ArgumentError)
   end
 

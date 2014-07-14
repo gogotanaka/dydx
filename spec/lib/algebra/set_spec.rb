@@ -23,10 +23,17 @@ describe Dydx::Algebra::Set do
   it { expect(log(e)).to eq(1) }
   it { expect(log(e ** n)).to eq(n) }
 
+  it { expect(sin(0)).to eq(0) }
+  it { expect(sin(pi / 2)).to eq(1) }
   it { expect(sin(pi)).to eq(0) }
+  it { expect(sin(3 * pi / 2)).to eq(-1) }
+  it { expect(sin(2 * pi)).to eq(0) }
+  it { expect(sin(3 * pi)).to eq(0) }
 
   it { expect(cos(0)).to eq(1) }
+  it { expect(cos(pi / 2)).to eq(0) }
   it { expect(cos(pi)).to eq(-1) }
+  it { expect(cos(3 * pi / 2)).to eq(0) }
   it { expect(cos(2 * pi)).to eq(1) }
 
   describe '#to_s' do
