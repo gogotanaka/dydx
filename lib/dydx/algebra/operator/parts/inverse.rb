@@ -3,17 +3,17 @@ module Dydx
     module Operator
       module Parts
         module Inverse
-          %w(+ * ^).map(&:to_sym).each do |operator|
+          %w(+ * **).map(&:to_sym).each do |operator|
             define_method(operator) do |x|
               if inverse?(operator, x)
                 case operator
                 when :+ then e0
                 when :* then e1
                 end
-              elsif !x.is_a?(Inverse) && operator == :+
+              elsif operator.eql?(:+) && !x.is_a?(Inverse)
                 x + self
-              elsif self.operator == :* && operator == :^
-                inverse(self.x ^ x, :*)
+              elsif operator.eql?(:**) && self.operator.eql?(:*)
+                inverse(self.x ** x, :*)
               else
                 super(x)
               end

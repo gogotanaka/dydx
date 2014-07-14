@@ -2,11 +2,31 @@ module Dydx
   module Algebra
     class Formula
       include Helper
-      attr_accessor :f, :operator, :g
+      attr_accessor :operator, :terms
 
-      def initialize(f, g, operator)
-        g, f = f, g if g.num? && operator.commutative?
-        @f, @g, @operator = f, g, operator
+      def initialize(operator, *terms)
+        @operator, @terms = operator, terms
+        commutate! if (terms[1].num? && operator.commutative?)
+      end
+
+      def f
+        @terms[0]
+      end
+
+      def g
+        @terms[1]
+      end
+
+      def f=(x)
+        @terms[0] = x
+      end
+
+      def g=(x)
+        @terms[1] = x
+      end
+
+      def trs
+        terms
       end
 
       # TODO: Cylomatic complexity for differentiate is too high. [7/6]
@@ -14,12 +34,12 @@ module Dydx
         case @operator
         when :+ then f.d(sym) + g.d(sym)
         when :* then (f.d(sym) * g) + (f * g.d(sym))
-        when :^
+        when :**
           # TODO:
           if g.num?
-            f.d(sym) * g * (f ^ (g - 1))
+            f.d(sym) * g * (f ** (g - 1))
           elsif f == sym
-            g * (f ^ (g - 1))
+            g * (f ** (g - 1))
           elsif f == e
             g.d(sym) * self
           else
@@ -33,9 +53,9 @@ module Dydx
         if formula?(:*) && (f.minus1? || g.minus1?)
           "( - #{g} )"
         elsif g.inverse?(operator)
-          "( #{f} #{inverse_ope(operator)} #{g.x} )"
+          "( #{f} #{operator.inv} #{g.x} )"
         elsif f.inverse?(operator)
-          "( #{g} #{inverse_ope(operator)} #{f.x} )"
+          "( #{g} #{operator.inv} #{f.x} )"
         elsif formula?(:*) && !rationals.empty?
           terms = [f, g]
           terms.delete(rationals.first)
@@ -76,22 +96,18 @@ module Dydx
         end
       end
 
-      def common_factors(formula)
-        nil unless formula.is_a?(Formula)
-        if f == formula.f
-          [:f, :f]
-        elsif g == formula.g
-          [:g, :g]
-        elsif f == formula.g
-          [:f, :g]
-        elsif g == formula.f
-          [:g, :f]
-        end
+      def commutate!
+        @terms.reverse!
+        self
       end
 
-      def commutate!
-        @f, @g = @g, @f
-        self
+      def index(tr)
+        trs.index(tr)
+      end
+
+      def delete(tr)
+        trs.delete(tr)
+        trs.count.one? ? trs.first : self
       end
     end
   end

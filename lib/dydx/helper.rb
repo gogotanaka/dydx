@@ -3,7 +3,7 @@ module Dydx
     SUPER_OPE_RELATION = {
       :+ => :*,
       :- => :/,
-      :* => :^,
+      :* => :**,
       :/ => :|
     }
 
@@ -12,17 +12,9 @@ module Dydx
       :- => :+,
       :* => :/,
       :/ => :*,
-      :^ => :|,
-      :| => :^
+      :** => :|,
+      :| => :**
     }
-
-    def inverse_ope(operator)
-      INVERSE_OPE_RELATION[operator]
-    end
-
-    def inverse_super_ope(operator)
-      inverse_ope(operator.super)
-    end
 
     def num?
       is_a?(Num) || is_a?(Numeric)
@@ -45,7 +37,7 @@ module Dydx
     end
 
     def distributive?(ope1, ope2)
-      [ope1.super, ope1.inverse_super].include?(ope2)
+      [ope1.super, ope1.inv_super].include?(ope2)
     end
 
     # TODO: Cyclomatic complexity for combinable? is too high. [17/6]
@@ -60,7 +52,7 @@ module Dydx
         self == x ||
         (num? && x.num?) ||
         inverse?(:*, x)
-      when :^
+      when :**
         (num? && x.num?) || zero? || one?
       end
     end
@@ -107,6 +99,10 @@ module Dydx
         [:+, :*].include?(self)
       end
 
+      def associative?
+        [:+, :*].include?(self)
+      end
+
       def super
         SUPER_OPE_RELATION[self] || self
       end
@@ -115,18 +111,17 @@ module Dydx
         SUPER_OPE_RELATION.invert[self] || self
       end
 
-      def inverse_super
-        inverse_super_ope(self) || self
+      def inv
+        INVERSE_OPE_RELATION[self] || self
+      end
+
+      def inv_super
+        self.super.inv
       end
     end
 
     def ==(x)
       to_s == x.to_s
-    end
-
-    # Refactor
-    def **(x)
-      self ^ (x)
     end
   end
 end

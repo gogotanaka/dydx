@@ -1,4 +1,9 @@
-require 'dydx/algebra/operator/parts'
+require 'dydx/algebra/operator/parts/base'
+require 'dydx/algebra/operator/parts/general'
+require 'dydx/algebra/operator/parts/formula'
+require 'dydx/algebra/operator/parts/inverse'
+require 'dydx/algebra/operator/parts/num'
+
 require 'dydx/algebra/operator/inverse'
 require 'dydx/algebra/operator/formula'
 require 'dydx/algebra/operator/num'
@@ -166,10 +171,10 @@ module Dydx
           subtraction: :-,
           multiplication: :*,
           division: :/,
-          exponentiation: :^,
+          exponentiation: :**,
           modulation: :%
         }
-        %w(+ - * / ^ %).each do |operator|
+        %w(+ - * / ** %).each do |operator|
           define_method(operator) do |g|
             if g.is_a?(Symbol) ||
               g.is_a?(Formula) ||
@@ -200,10 +205,6 @@ module Dydx
         eval('$e1 ||= _(1)')
       end
 
-      def _(num)
-        Num.new(num)
-      end
-
       def pi
         $pi ||= Pi.new
       end
@@ -221,7 +222,7 @@ module Dydx
         if formula.formula?(:*)
           f, g = formula.f, formula.g
           log(f) + log(g)
-        elsif formula.formula?(:^)
+        elsif formula.formula?(:**)
           f, g = formula.f, formula.g
           g * log(f)
         elsif formula.one?
@@ -238,7 +239,7 @@ module Dydx
         if formula.formula?(:*)
           f, g = formula.f, formula.g
           log2(f) + log2(g)
-        elsif formula.formula?(:^)
+        elsif formula.formula?(:**)
           f, g = formula.f, formula.g
           g * log2(f)
         elsif formula.one?
@@ -257,7 +258,7 @@ module Dydx
         if formula.formula?(:*)
           f, g = formula.f, formula.g
           log10(f) + log10(g)
-        elsif formula.formula?(:^)
+        elsif formula.formula?(:**)
           f, g = formula.f, formula.g
           g * log10(f)
         elsif formula.one?
@@ -271,44 +272,40 @@ module Dydx
         end
       end
 
-      # TODO: We should hundle Rational num
+      # TODO: We should negative num
       def sin(x)
-        if x.multiple_of?(pi)
-          if (x / pi).is_a?(Num)
-            case (x / pi) % 2
-            when 0 then 0
-            when 1 then 0
-            else
-              Sin.new(x)
-            end
-          elsif (x / pi) == (_(1) / _(2))
-            1
-          elsif (x / pi) == (_(3) / _(2))
-            -1
-          else
-            Sin.new(x)
-          end
-        else
-          Sin.new(x)
+        return Sin.new(x) unless x.multiple_of?(pi) && (x / pi).num?
+
+        radn = (x / pi)
+        loop do
+          break if radn < 2
+          radn -= 2
+        end
+
+        case radn
+        when 0        then 0
+        when _(1) / 2 then 1
+        when 1        then 0
+        when _(3) / 2 then -1
+        else               Sin.new(x)
         end
       end
 
       def cos(x)
-        if x.multiple_of?(pi)
-          if (x / pi).is_a?(Num)
-            case (x / pi) % 2
-            when 0 then 1
-            when 1 then -1
-            else
-              Cos.new(x)
-            end
-          elsif [(_(1) / _(2)), (_(3) / _(2))].include? (x / pi)
-            0
-          else
-            Cos.new(x)
-          end
-        else
-          Cos.new(x)
+        return Cos.new(x) unless x.multiple_of?(pi) && (x / pi).num?
+
+        radn = (x / pi)
+        loop do
+          break if radn < 2
+          radn -= 2
+        end
+
+        case radn
+        when 0        then 1
+        when _(1) / 2 then 0
+        when 1        then -1
+        when _(3) / 2 then 0
+        else               Sin.new(x)
         end
       end
 
