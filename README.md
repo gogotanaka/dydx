@@ -64,7 +64,7 @@ d/dx(e ** x) == e ** x
 => true
 
 # standard normal distribution;
-f(x) <= (1.0 / ( ( 2.0 * pi ) ^ 0.5 ) ) * ( e ^ (- (x ^ 2) / 2) )
+f(x) <= (1.0 / ( 2.0 * pi ) ** 0.5) * e ** (- x ** 2 / 2)
 S(f(x), dx)[-oo, oo]
 => 1.0
 ```
