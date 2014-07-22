@@ -7,8 +7,8 @@ Gem::Specification.new do |spec|
   spec.name          = 'dydx'
   spec.version       = Dydx::VERSION
   spec.authors       = ['gogotanaka']
-  spec.email         = ['qlli.illb@gmail.com']
-  spec.homepage      = 'https://github.com/gogotanaka'
+  spec.email         = ['mail@tanakakazuki.com']
+  spec.homepage      = 'http://gogotanaka.me/'
   spec.summary       = %q(We can enjoy the math.)
   spec.description   = %q(Dydx is new math DSL in Ruby. The most important thing in this DSL is we can handle math in the same sense sense of the math on paper.)
 
