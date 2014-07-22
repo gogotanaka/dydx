@@ -2,6 +2,8 @@
 
 ### Since you report a bug, I will fix it within 24 hours.
 
+[![Build Status](https://travis-ci.org/gogotanaka/dydx.svg?branch=master)](https://travis-ci.org/gogotanaka/dydx)
+
 The most important thing in this DSL is
 
 we can handle math in the same sense sense of the math on paper.
