@@ -4,80 +4,80 @@ module Dydx
       module Parts
         module Formula
           %w(+ *).map(&:to_sym).each do |op|
-            define_method(op) do |rtr|
-              if self.operator == op
-                if f.combinable?(rtr, op)
+            define_method(op) do |rtm|
+              if operator == op
+                if tms[0].combinable?(rtm, op)
                   _(
-                    _(trs[0], op, rtr), op, trs[1]
+                    _(tms[0], op, rtm), op, tms[1]
                   )
-                elsif g.combinable?(rtr, op)
+                elsif tms[1].combinable?(rtm, op)
                   _(
-                    _(trs[1], op, rtr), op, trs[0]
+                    _(tms[1], op, rtm), op, tms[0]
                   )
                 else
-                  super(rtr)
+                  super(rtm)
                 end
-              elsif formula?(op.sub) && openable?(op, rtr)
+              elsif formula?(op.sub) && openable?(op, rtm)
                 _(
-                  _(trs[0], op, rtr), op.sub, _(trs[1], op, rtr)
+                  _(tms[0], op, rtm), op.sub, _(tms[1], op, rtm)
                 )
-              elsif formula?(op.super) && rtr.formula?(op.super)
-                cmn_fct = (trs & rtr.trs).first
-                return super(rtr) unless cmn_fct
+              elsif formula?(op.super) && rtm.formula?(op.super)
+                cmn_fct = (tms & rtm.tms).first
+                return super(rtm) unless cmn_fct
 
                 if op.super.commutative?
                   _(
-                    cmn_fct, op.super, _(delete(cmn_fct), op, rtr.delete(cmn_fct))
+                    cmn_fct, op.super, _(delete(cmn_fct), op, rtm.delete(cmn_fct))
                   )
                 else
-                  return super(rtr) if index(cmn_fct) != rtr.index(cmn_fct)
+                  return super(rtm) if index(cmn_fct) != rtm.index(cmn_fct)
 
                   case index(cmn_fct)
                   when 0
                     _(
-                      cmn_fct, op.super, _(delete(cmn_fct), op.sub, rtr.delete(cmn_fct))
+                      cmn_fct, op.super, _(delete(cmn_fct), op.sub, rtm.delete(cmn_fct))
                     )
                   when 1
                     _(
-                      _(delete(cmn_fct), op, rtr.delete(cmn_fct)), op.super, cmn_fct
+                      _(delete(cmn_fct), op, rtm.delete(cmn_fct)), op.super, cmn_fct
                     )
                   end
                 end
-              elsif formula?(op.super) && rtr.inverse?(op) && rtr.x.formula?(op.super)
-                cmn_fct = (trs & rtr.x.trs).first
-                return super(rtr) unless cmn_fct
+              elsif formula?(op.super) && rtm.inverse?(op) && rtm.x.formula?(op.super)
+                cmn_fct = (tms & rtm.x.tms).first
+                return super(rtm) unless cmn_fct
 
                 if op.super.commutative?
                   _(
-                    cmn_fct, op.super, _(delete(cmn_fct), op.inv, rtr.x.delete(cmn_fct))
+                    cmn_fct, op.super, _(delete(cmn_fct), op.inv, rtm.x.delete(cmn_fct))
                   )
                 else
-                  return super(rtr) if index(cmn_fct) != rtr.x.index(cmn_fct)
+                  return super(rtm) if index(cmn_fct) != rtm.x.index(cmn_fct)
                   case index(cmn_fct)
                   when 0
                     _(
-                      cmn_fct, op.super, _(delete(cmn_fct), op.sub.inv, rtr.x.delete(cmn_fct))
+                      cmn_fct, op.super, _(delete(cmn_fct), op.sub.inv, rtm.x.delete(cmn_fct))
                     )
                   when 1
                     _(
-                      _(delete(cmn_fct), op.inv, rtr.x.delete(cmn_fct)), op.super, cmn_fct
+                      _(delete(cmn_fct), op.inv, rtm.x.delete(cmn_fct)), op.super, cmn_fct
                     )
                   end
                 end
               else
-                super(rtr)
+                super(rtm)
               end
             end
           end
 
           %w(**).map(&:to_sym).each do |op|
-            define_method(op) do |rtr|
-              if formula?(op.sub) && openable?(op, rtr)
+            define_method(op) do |rtm|
+              if formula?(op.sub) && openable?(op, rtm)
                 _(
-                  _(trs[0], op, rtr), op.sub, _(trs[1], op, rtr)
+                  _(tms[0], op, rtm), op.sub, _(tms[1], op, rtm)
                 )
               else
-                super(rtr)
+                super(rtm)
               end
             end
           end

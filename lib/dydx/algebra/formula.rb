@@ -25,7 +25,7 @@ module Dydx
         @terms[1] = x
       end
 
-      def trs
+      def tms
         terms
       end
 
@@ -101,13 +101,13 @@ module Dydx
         self
       end
 
-      def index(tr)
-        trs.index(tr)
+      def index(tm)
+        tms.index(tm)
       end
 
-      def delete(tr)
-        trs.delete(tr)
-        trs.count.one? ? trs.first : self
+      def delete(tm)
+        tms.delete(tm)
+        tms.count.one? ? tms.first : self
       end
     end
   end
