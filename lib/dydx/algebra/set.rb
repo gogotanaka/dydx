@@ -176,13 +176,10 @@ module Dydx
         }
         %w(+ - * / ** %).each do |operator|
           define_method(operator) do |g|
-            if g.is_a?(Symbol) ||
-              g.is_a?(Formula) ||
-              g.is_a?(Base)
-
-              _(self).send(operator.to_sym, g)
-            else
+            if g.is_a?(Numeric)
               send(ope_to_str.key(operator.to_sym), g)
+            else
+              _(self).send(operator, g)
             end
           end
         end
