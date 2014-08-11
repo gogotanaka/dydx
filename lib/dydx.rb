@@ -24,7 +24,12 @@ module Dydx
   end
 
   def S(function, delta)
-    Integrand.new(function, delta.var)
+    itgrl_var = delta.var
+    unless function.is_a?(Function)
+      eval "g(#{itgrl_var}) <= #{function}"
+      function = g(x)
+    end
+    Integrand.new(function, itgrl_var)
   end
 
   def d

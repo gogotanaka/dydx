@@ -48,4 +48,8 @@ describe Dydx::Integrand do
     f(x) <= (1.0 / ( 2.0 * Math::PI ) ** 0.5) * e ** (- x ** 2 / 2)
     expect(S(f(x), dx)[-oo, oo]).to eq(1.0)
   end
+
+  it 'ex9' do
+    expect(S(log(x), dx)[0, 1]).to eq(-oo)
+  end
 end
