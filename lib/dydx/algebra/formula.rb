@@ -31,6 +31,7 @@ module Dydx
 
       # TODO: Cylomatic complexity for differentiate is too high. [7/6]
       def differentiate(sym = :x)
+
         case @operator
         when :+ then f.d(sym) + g.d(sym)
         when :* then (f.d(sym) * g) + (f * g.d(sym))
@@ -38,8 +39,12 @@ module Dydx
           # TODO:
           if g.num?
             f.d(sym) * g * (f ** (g - 1))
-          elsif f == sym
-            g * (f ** (g - 1))
+          elsif (f == sym) && (
+              g.num? || (
+                g.is_a?(Symbol) && g != sym
+              )
+            )
+            g * f ** (g - 1)
           elsif f == e
             g.d(sym) * self
           else
@@ -50,12 +55,14 @@ module Dydx
       alias_method :d, :differentiate
 
       def to_s
-        if formula?(:*) && (f.minus1? || g.minus1?)
+        str = if formula?(:*) && (f.minus1? || g.minus1?)
           "( - #{g} )"
         elsif g.inverse?(operator)
           "( #{f} #{operator.inv} #{g.x} )"
         elsif f.inverse?(operator)
           "( #{g} #{operator.inv} #{f.x} )"
+        elsif f.negative?
+          "( #{g} - #{f.n.abs} )"
         elsif formula?(:*) && !rationals.empty?
           terms = [f, g]
           terms.delete(rationals.first)

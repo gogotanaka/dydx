@@ -13,14 +13,16 @@ describe Dydx::Delta do
 
   it 'ex1' do
     $y = x ** n
-    expect(dy/dx).to eq( n * ( x ** ( n - 1 ) ) )
-    expect(d/dx($y)).to eq( n * ( x ** ( n - 1 ) ) )
+    expect(d/dx($y)).to eq( n * ( x ** ( n - 1 ) ))
   end
 
   it 'ex2' do
     $y = x ** (x * 2)
-    expect(dy/dx).to eq(( 2 * x ) * ( x ** ( ( 2 * x ) - 1 ) ))
-    expect(d/dx($y)).to eq(( 2 * x ) * ( x ** ( ( 2 * x ) - 1 ) ))
+    expect(
+      eval((d/dx($y)).to_s)
+    ).to eq(
+     ( ( x ** ( 2 * x ) ) * ( 2 * ( 1 + log( x ) ) ) )
+    )
   end
 
   it 'ex3' do
@@ -31,5 +33,15 @@ describe Dydx::Delta do
   it 'ex4' do
     $y = 2 * (e ** (2 * z))
     expect(dy/dz).to eq(4 * ( e ** ( 2 * z ) ))
+  end
+
+  it 'ex5' do
+    $y = 2 ** x
+    expect(dy/dx).to eq(( 2 ** x ) * log( 2 ))
+  end
+
+  it 'ex6' do
+    $y = x ** x
+    expect(dy/dx).to eq(x ** x * (log(x) + 1))
   end
 end

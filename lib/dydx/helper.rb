@@ -36,6 +36,10 @@ module Dydx
       [-1, -1.0].include?(self) || (is_a?(Num) && n.minus1?)
     end
 
+    def negative?
+      num? && self < 0
+    end
+
     def distributive?(ope1, ope2)
       [ope1.super, ope1.inv_super].include?(ope2)
     end
