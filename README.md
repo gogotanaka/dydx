@@ -1,3 +1,4 @@
+# This gem is obsolete. See https://github.com/gogotanaka/q
 # Dydx is new MATH Language on Ruby.
 
 ### Since you report a bug, I will fix it within 24 hours.
