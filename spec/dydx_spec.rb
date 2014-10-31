@@ -17,4 +17,9 @@ describe Dydx do
     expect(d/dx(g(x))).to eq(cos(x))
     expect(S(g(x), dx)[0, pi / 2]).to eq(1.0)
   end
+
+  it 'API' do
+    expect(Dydx::API.store_func([x, y], x + y, :tmp)).not_to eq(nil)
+    expect(Dydx::API.eval_func([1,2], :tmp)).to eq(3.0)
+  end
 end

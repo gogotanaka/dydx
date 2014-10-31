@@ -10,6 +10,11 @@ module Dydx
       self
     end
 
+    def evalue(nums)
+      subst_hash = Hash[*[@vars, nums].transpose.flatten]
+      @algebra.subst(subst_hash).to_f
+    end
+
     def differentiate(sym = :x)
       @algebra.differentiate(sym)
     end

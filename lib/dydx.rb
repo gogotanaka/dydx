@@ -4,6 +4,8 @@ require 'dydx/delta'
 require 'dydx/function'
 require 'dydx/integrand'
 
+require 'dydx/api'
+
 module Dydx
   include Algebra
   %w(f g h temp_cal_f).each do |functioner|
