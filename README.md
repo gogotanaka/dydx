@@ -1,17 +1,14 @@
-# This gem is obsolete. See https://github.com/gogotanaka/q
-# Dydx is new MATH Language on Ruby.
+# This gem is obsolete. See [Hilbert](https://github.com/gogotanaka/Hilbert)
 
 ### Since you report a bug, I will fix it within 24 hours.
 
 [![Build Status](https://travis-ci.org/gogotanaka/dydx.svg?branch=master)](https://travis-ci.org/gogotanaka/dydx)
 
-The most important thing in this DSL is
-
-we can handle math in the same sense sense of the math on paper.
+Q makes it possible to enjoy mathematics on PC without losing the feeling that you can get from using Pen and Paper.
 
 ex. limit, trigonometric functions and logarithmic.
 
-## We should enjoy MATH even using PC.
+## We can enjoy mathematics even using PC.
 (to say nothing of using pen.)
 
 After `inlcude Dydx` , ruby become like other language.
@@ -93,31 +90,6 @@ Dydx
   |- Integrand
 ```
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'dydx'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install dydx
-
-## Usage
-
-    include Dydx
-
-## Contributing
-
-1. Fork it ( https://github.com/gogotanaka/dydx/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
 
 ## Test
 
