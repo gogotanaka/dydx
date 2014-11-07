@@ -12,7 +12,11 @@ module Dydx
 
     def evalue(nums)
       subst_hash = Hash[*[@vars, nums].transpose.flatten]
-      @algebra.subst(subst_hash).to_f
+      begin
+        @algebra.subst(subst_hash).to_f
+      rescue ArgumentError
+        eval(@algebra.subst(subst_hash).to_s)
+      end
     end
 
     def differentiate(sym = :x)

@@ -62,4 +62,9 @@ describe Dydx::Function do
     g(x) <= d/dx(f(x))
     expect(g(pi)).to eq(-1)
   end
+
+  it 'ex7' do
+    f(x) <= (1 + 1/x) ** x
+    expect(f(100000)).to eq(2.7182682371744895)
+  end
 end

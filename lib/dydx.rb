@@ -13,15 +13,13 @@ module Dydx
       function = eval("$#{functioner}")
       return eval("$#{functioner} = Function.new(*vars)") unless function
 
-      fail ArgumentError, "invalid number of values (#{vars.count} for #{function.vars.count})" unless function.vars.count == vars.count
+      unless function.vars.count == vars.count
+        fail ArgumentError, "invalid number of values (#{vars.count} for #{function.vars.count})"
+      end
+
       return function if function.vars == vars || !function.algebra
 
-      subst_hash = Hash[*[function.vars, vars].transpose.flatten]
-      begin
-        function.algebra.subst(subst_hash).to_f
-      rescue ArgumentError
-        eval(function.algebra.subst(subst_hash).to_s)
-      end
+      function.evalue(vars)
     end
   end
 
