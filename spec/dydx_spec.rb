@@ -21,5 +21,7 @@ describe Dydx do
   it 'API' do
     expect(Dydx::API.store_func([x, y], x + y, :tmp)).not_to eq(nil)
     expect(Dydx::API.eval_func([1,2], :tmp)).to eq(3.0)
+    expect(Dydx::API.store_func([:x], (1 + 1/x) ** x, :tmp)).not_to eq(nil)
+    expect(Dydx::API.eval_func([100000], :tmp)).to eq(2.7182682371744895)
   end
 end
