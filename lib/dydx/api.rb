@@ -11,6 +11,10 @@ module Dydx
         func = eval("$#{symbol.to_s}")
         func.evalue(nums)
       end
+
+      def reset!
+        $tmp, $temp_cal_f = nil, nil
+      end
     end
   end
 end
