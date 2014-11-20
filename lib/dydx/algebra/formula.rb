@@ -30,8 +30,7 @@ module Dydx
       end
 
       # TODO: Cylomatic complexity for differentiate is too high. [7/6]
-      def differentiate(sym = :x)
-
+      def differentiate(sym=:x)
         case @operator
         when :+ then f.d(sym) + g.d(sym)
         when :* then (f.d(sym) * g) + (f * g.d(sym))
@@ -53,6 +52,9 @@ module Dydx
         end
       end
       alias_method :d, :differentiate
+
+      def integrate(sym=:x)
+      end
 
       def to_s
         str = if formula?(:*) && (f.minus1? || g.minus1?)

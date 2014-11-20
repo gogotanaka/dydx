@@ -95,6 +95,12 @@ describe Dydx::Algebra::Set do
     it { expect(x.d(x)).to eq(1) }
   end
 
+  describe '#integrate' do
+    assert_equal(x * e, e.integrate)
+    assert_equal(x * pi, pi.integrate)
+    assert_equal(x * _(3), _(3).integrate)
+  end
+
   describe 'Calculate' do
     context 'E with Fixnum' do
       it { expect(e + 0).to eq(e) }

@@ -3,3 +3,7 @@ require 'dydx'
 require 'pry'
 
 include Dydx
+
+def assert_equal(output, input)
+  eval "it { expect(#{input}).to eq(#{output}) }"
+end

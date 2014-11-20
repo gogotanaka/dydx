@@ -89,6 +89,19 @@ module Dydx
           when Log2       then x.d(sym) / (x * log(2))
           end
         end
+
+        def integrate(sym=:x)
+          case self
+          when Num, Pi, E then sym * self
+          # when Symbol     then self == sym ? e1 : e0
+          # when Sin        then cos(x) * x.d(sym)
+          # when Cos        then -1 * sin(x) * x.d(sym)
+          # when Tan        then 1 / (cos(x) ** 2)
+          # when Log        then x.d(sym) / (x)
+          # when Log10      then x.d(sym) / (x * log(10))
+          # when Log2       then x.d(sym) / (x * log(2))
+          end
+        end
       end
 
       class Num
