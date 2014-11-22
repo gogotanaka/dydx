@@ -97,7 +97,7 @@ module Dydx
           when Sin        then self.x == sym ? -cos(sym) : (fail "Can't integrate #{self}")
           when Cos        then self.x == sym ? sin(sym)  : (fail "Can't integrate #{self}")
           # when Tan        then 1 / (cos(x) ** 2)
-          # when Log        then x.d(sym) / (x)
+          when Log        then self.x == sym ? 1 / sym  : (fail "Can't integrate #{self}")
           # when Log10      then x.d(sym) / (x * log(10))
           # when Log2       then x.d(sym) / (x * log(2))
           end

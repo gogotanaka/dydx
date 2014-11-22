@@ -105,6 +105,8 @@ describe Dydx::Algebra::Set do
 
     assert_equal(-cos(x), sin(x).integrate)
     assert_equal(sin(x), cos(x).integrate)
+
+    assert_equal(1/x, log(x).integrate)
   end
 
   describe 'Calculate' do
