@@ -93,7 +93,7 @@ module Dydx
         def integrate(sym=:x)
           case self
           when Num, Pi, E then sym * self
-          # when Symbol     then self == sym ? e1 : e0
+          when Symbol     then self == sym ? 1/2r * self ** 2 : sym + self
           # when Sin        then cos(x) * x.d(sym)
           # when Cos        then -1 * sin(x) * x.d(sym)
           # when Tan        then 1 / (cos(x) ** 2)

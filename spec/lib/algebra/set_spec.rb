@@ -99,6 +99,9 @@ describe Dydx::Algebra::Set do
     assert_equal(x * e, e.integrate)
     assert_equal(x * pi, pi.integrate)
     assert_equal(x * _(3), _(3).integrate)
+
+    assert_equal(1/2r * x ** 2, x.integrate)
+    assert_equal(x + y, y.integrate)
   end
 
   describe 'Calculate' do
